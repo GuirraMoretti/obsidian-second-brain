@@ -8,9 +8,9 @@ Este documento define formalmente os tipos de itens, status e ciclos de vida uti
 
 | Tipo | Descrição | Quando usar | Ciclo de vida |
 |---|---|---|---|
-| `projeto` | Iniciativa finita com prazo e entrega definidos | Formatura, viagem, sprint específica | planejado → em-andamento → concluído → Arquivo/ |
-| `produto` | Demanda contínua que evolui e recebe melhorias | Dashboard Produto, ferramentas internas | em-andamento → em-manutenção ↔ em-andamento → descontinuado → Arquivo/ |
-| `estudo` | Tema de aprendizado, pesquisa ou interesse contínuo | Product Ops, LLM Wiki, tecnologias | em-andamento → concluído → Arquivo/ (atualizável mesmo arquivado) |
+| `projeto` | Iniciativa finita com prazo e entrega definidos | Projeto de exemplo, viagem, sprint específica | planejado → em-andamento → concluído → Arquivo/ |
+| `produto` | Demanda contínua que evolui e recebe melhorias | Produto de exemplo, ferramenta interna | em-andamento → em-manutenção ↔ em-andamento → descontinuado → Arquivo/ |
+| `estudo` | Tema de aprendizado, pesquisa ou interesse contínuo | Estudo de exemplo, LLM Wiki, tecnologias | em-andamento → concluído → Arquivo/ (atualizável mesmo arquivado) |
 | `ideia` | Conceito capturado, sem forma definida ainda | Insights, brainstorms, sugestões | pendente → vira projeto/produto/estudo, ou → Arquivo/ |
 | `fonte` | Material de referência original imutável | Artigos, PDFs, notas clipadas | Imutável em Fontes/ |
 | `diario` | Nota diária temporal | Registro do dia | Vive em Diario/Daily/ |
@@ -22,7 +22,11 @@ Resumo de uma linha do conceito, destinado a leitura por agentes e ao `index.md`
 - **Obrigatório?** Sim, para notas em `Ativo/` e arquivos `*- MOC.md`. Em notas antigas fora desse escopo, a ausência é tolerada.
 - **Quando usar?** Em notas novas criadas via `create-item`, `process-inbox`, `dump-material` e em MOCs.
 - **Formato:** String curta e descritiva (uma frase).
-- **Exemplo:** `description: "Dashboard Power BI de funil de pagamentos Pix para a Evo."`
+- **Exemplo:** `description: "Resumo curto do objetivo e contexto do item."`
+
+### Tags de Ambiente
+
+O template usa tags estruturais para espelhar `status` e indicar `papel/*`. Tags de conteudo, areas, dominios e categorias sao definidas pelo ambiente de uso. O agente deve preservar tags locais existentes, mas nao deve criar, renomear, migrar ou validar taxonomias livres sem instrucao explicita do usuario ou de `.agents/assistant/local.md`.
 
 ---
 

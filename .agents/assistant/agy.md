@@ -30,7 +30,7 @@ O Segundo Cérebro é estruturado em camadas lógicas para equilibrar a mutabili
 O cofre é projetado para que agentes de IA o descubram em camadas, sem precisar ler todos os arquivos de uma vez. A ordem de leitura recomendada para resolver qualquer dúvida é:
 
 1. **`index.md`** (raiz) → Visão geral dos itens raiz (`papel/raiz`), seus status e descrições de uma linha.
-2. **Nota do item** (ex: `Ativo/Dashboard Produto.md`) → Escopo completo, cronograma e tarefas.
+2. **Nota do item** (ex: `Ativo/Item de Exemplo.md`) → Escopo completo, cronograma e tarefas.
 3. **MOCs temáticos** (ex: `Arquivo/LLMs - MOC.md`, via `Temas MOC.md`) → Índice de referências sobre um tema.
 4. **Fontes originais** (ex: `Fontes/artigo.md`) → Material bruto imutável, consultado por demanda.
 
@@ -62,10 +62,6 @@ status: estado-atual # planejado, em-andamento, em-manutenção, concluído, des
 description: "Resumo de uma linha do conceito" # Obrigatorio em notas de Ativo/ e MOCs. Usado pelo index.md e por agentes para navegacao progressiva.
 tags:
   - status/estado-atual
-  - area/evo # Trabalho normal/corporativo
-  - area/freelance # Trabalho freelance
-  - area/pessoal # Projetos e tarefas pessoais
-  - area/pesquisa # Projetos de pesquisa acadêmica/científica
   - papel/raiz # papel/raiz, papel/filha, papel/moc, papel/fonte
 links:
   - "[[NotaRelacionada]]"
@@ -75,6 +71,8 @@ links:
 > O campo `description` e obrigatorio para notas em `Ativo/` e para arquivos `*- MOC.md`, inclusive quando forem criados por skills. Em notas antigas fora desse escopo, a ausencia do campo e tolerada, mas o `lint-vault` deve apontar lacunas que prejudiquem a navegacao por IA.
 
 > A tag `papel/*` define a funcao operacional da nota no sistema: `papel/raiz` aparece em `Ativo/` e no `index.md`; `papel/filha` e usada para dossies, sub-hubs e notas de apoio em `Arquivo/`; `papel/moc` identifica indices tematicos; `papel/fonte` identifica referencias derivadas ou materiais de origem.
+
+> Tags de conteudo, areas, dominios e categorias pertencem ao ambiente de uso. O assistente nao deve inventar, normalizar, migrar ou exigir taxonomias locais como `area/*` ou `tema/*` sem instrucao explicita do usuario ou de uma configuracao local privada.
 
 > Para definições formais de cada tipo e status, consulte o [glossary.md](glossary.md).
 
@@ -99,7 +97,7 @@ A pasta `Ativo/` é **estritamente** reservada para itens raiz acompanháveis (`
 * **Nota Filha / Dossiê / Sub-hub**: Material de apoio a uma raiz, mesmo que esteja em uso. Fica em `Arquivo/`, recebe `papel/filha` e deve ser linkado a partir da nota raiz correspondente.
 * **MOC Temático**: Índice de tema macro. Fica em `Arquivo/`, recebe `papel/moc` e é listado no `Temas MOC.md`.
 * **Informação Passiva e Longo Prazo**: Se o usuário menciona algo para "o futuro", "não no momento", ou apenas deseja registrar um conhecimento, a nota correspondente deve ser criada diretamente em `Arquivo/` com `status: arquivado` e `papel/filha` ou `papel/moc`, conforme o caso.
-* **Organização Temática Semântica**: Não crie subpastas temáticas (ex: `Ativo/Product Ops/`). A classificação de assuntos é feita exclusivamente via tags hierárquicas no frontmatter (ex: `tags: [tema/product-ops]`).
+* **Organização Temática Semântica**: Não crie subpastas temáticas. Classificações por assunto podem existir como tags ou outros metadados, mas pertencem ao ambiente de uso; preserve as que já existirem e só crie novas quando o usuário ou a configuração local pedir explicitamente.
 
 ---
 
@@ -128,35 +126,23 @@ Apenas projetos e produtos raiz (`papel/raiz`) com `status: em-andamento` podem 
 
 ### Hierarquia do Diário
 
-O diário é organizado por **domínio de vida** (nível H1), depois por **projeto ativo** (nível H2 com wikilink), com tarefas como checkboxes:
+O diário pode ser organizado por seções definidas pelo ambiente de uso (nível H1), depois por item ativo (nível H2 com wikilink), com tarefas como checkboxes. O template não define uma taxonomia fixa de domínios; o assistente deve preservar os cabeçalhos existentes no diário/template local.
 
 ```markdown
-# Pessoal
-- [ ] Tarefa pessoal avulsa
-## [[Projeto Pessoal A]]
+# [Domínio definido pelo ambiente]
+- [ ] Tarefa avulsa concreta
+## [[Item Ativo A]]
 - [ ] Pendência X
 
-# Trabalho
-## [[Projeto Freelance B]]
-- [ ] Demanda Freelancer Y
-## [[Projeto Corporativo C]]
-- [ ] Demanda Corporativa Z
-
-# Pesquisa
-## [[Pesquisa D]]
-- [ ] Tarefa de pesquisa W
+# [Outro domínio definido pelo ambiente]
+## [[Item Ativo B]]
+- [ ] Pendência Y
 
 # Notas
 - Contexto solto, brain dumps, wikilinks para projetos em standby...
 ```
 
-O domínio de cada projeto é determinado pela tag `area/` no frontmatter: 
-*   `area/evo` → Trabalho (Normal)
-*   `area/freelance` → Trabalho (Freelance)
-*   `area/pessoal` → Pessoal
-*   `area/pesquisa` → Pesquisa
-
-Tarefas avulsas (sem projeto associado) ficam diretamente sob o domínio correspondente (Pessoal, Trabalho ou Pesquisa).
+O agente não deve inferir domínios a partir de tags livres como `area/*`, salvo quando uma configuração local privada definir esse contrato. Se a seção correta não estiver clara, registre em `# Notas` ou pergunte ao usuário antes de criar uma nova seção.
 
 ---
 

@@ -27,9 +27,9 @@ Quando solicitado a organizar ou processar a inbox:
    status: estado-atual # planejado, em-andamento, em-manutenção, concluído, descontinuado, pendente, arquivado
    description: "Resumo de uma linha da nota"
    tags:
-     - tag1
-     - area/evo # ou area/pessoal
+     - status/estado-atual
      - papel/raiz # ou papel/filha, papel/moc, papel/fonte
+     # tags locais opcionais pertencem ao ambiente de uso
    links:
      - "[[NotaRelacionada]]"
    ---

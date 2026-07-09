@@ -1,30 +1,37 @@
-# Segundo Cérebro — Índice Geral
+# Segundo Cerebro - Indice Geral
 
-Bem-vindo ao índice central do seu Segundo Cérebro. Este arquivo mapeia os itens ativos, estudos recorrentes e as próximas ações priorizadas. Ele é mantido e atualizado pelo assistente **agy**.
+Este e o ponto de entrada do cofre. Liste aqui apenas itens raiz acompanhaveis (`papel/raiz`) que estejam em `Ativo/`.
 
 ---
 
 ## Ativo
-*Todos os itens que estão no foco ativo, organizados por tipo:*
 
-### Projetos (finitos, com prazo)
-<!-- Adicione links para seus projetos aqui, ex: - [[Meu Projeto]] — Em andamento -->
+*Painel executivo de itens raiz acompanhaveis. Notas filhas, dossies e sub-hubs ficam em `Arquivo/` e devem ser linkados a partir destes itens.*
 
-### Produtos (demandas contínuas)
-<!-- Adicione links para seus produtos aqui, ex: - [[Meu Dashboard]] — Planejado -->
+### Projetos
 
-### Estudos (temas de aprendizado)
-<!-- Adicione links para seus estudos aqui, ex: - [[Estudo de IA]] — Em andamento -->
+- [[Projeto de Exemplo]] - Planejado - Descricao curta do projeto.
 
----
+### Produtos
 
-## Próximos Passos Consolidados
-*Ações prioritárias e tarefas extraídas das notas de itens ativos:*
+- [[Produto de Exemplo]] - Planejado - Descricao curta do produto.
 
-<!-- Tarefas serão listadas aqui automaticamente pelo assistente -->
+### Estudos
+
+- [[Estudo de Exemplo]] - Planejado - Descricao curta do estudo.
 
 ---
 
-## Links Rápidos
-- [[backlog|Backlog de Ideias e Estudos Futuros]]
-- [[.agents/assistant/agy.md|Manual do Assistente agy]]
+## Proximos Passos Consolidados
+
+*Acoes prioritarias extraidas das notas de itens ativos.*
+
+- [ ] [[Projeto de Exemplo]]: Definir o primeiro proximo passo concreto.
+
+---
+
+## Links Rapidos
+
+- [[Ativo/backlog|Backlog]]
+- [[Temas MOC|Temas MOC]]
+- [[.agents/assistant/agy.md|Manual do Assistente]]

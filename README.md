@@ -1,46 +1,8 @@
-# 🧠 Segundo Cérebro — Template de Wiki Pessoal com IA (Obsidian + Antigravity)
+# Segundo Cérebro (LLM Wiki) — Guia de Uso do Projeto
 
-Um sistema completo de **base de conhecimento pessoal** (Second Brain / Personal Knowledge Management) que utiliza o **Obsidian** como editor e o assistente de IA **Antigravity / Codex** como copiloto inteligente para organizar, curar e manter suas notas, projetos e estudos.
+Este repositório é um **Segundo Cérebro (LLM Wiki)** estruturado para funcionar como base de conhecimento pessoal e gerenciador de produtividade. Ele foi projetado para ser usado no **Obsidian** e é copiloto pelo assistente de Inteligência Artificial **agy** (rodando originalmente na plataforma Antigravity e compatível com Codex via `AGENTS.md`).
 
-> **O que torna este projeto diferente?** Este não é apenas um template de notas — é um **sistema operacional de produtividade** com habilidades de IA que automatizam a captura de ideias, organização de inbox, gestão de projetos, auditoria de consistência, indexação de referências e sincronização com GitHub.
-
----
-
-## ✨ Features
-
-- 📥 **Captura Rápida de Ideias** — Salve pensamentos no chat e eles viram notas estruturadas na Inbox automaticamente.
-- 📋 **Processamento Inteligente** — Notas brutas na Inbox são higienizadas, enriquecidas com metadados estruturados e movidas para a Wiki permanente.
-- 📅 **Digest Diário Automatizado** — Transição diária com migração de tarefas pendentes, criação da nota do novo dia e consolidação das notas escritas.
-- 📁 **Criação Estruturada de Itens** — Criação de projetos, produtos e estudos com templates adaptativos por tipo, status e domínio.
-- 📚 **Ingestão de Referências** — Ingestão inteligente de PDFs e artigos direto para a pasta de fontes com categorização automática em MOCs (Maps of Content).
-- 🔍 **Linter de Saúde Portátil** — Script Python portátil (`lint_vault.py`) para auditar links quebrados, órfãs, inconsistências de status e higiene do cofre.
-- 🔄 **Sincronização com GitHub** — Processo robusto de Push/Pull Git com resolução automática de conflitos para uso multi-dispositivo.
-
----
-
-## 🚀 Setup Rápido
-
-### Pré-requisitos
-- [Obsidian](https://obsidian.md/) instalado.
-- [Antigravity](https://antigravity.google/) configurado (IDE com suporte a agentes de IA) ou outro assistente compatível com o protocolo Codex.
-
-### Instalação
-
-1. **Clone o repositório:**
-   ```bash
-   git clone https://github.com/SEU-USUARIO/obsidian-second-brain.git
-   ```
-
-2. **Abra no Obsidian:**
-   - Abra o Obsidian → "Open folder as vault" → selecione a pasta clonada.
-   - Habilite a visualização de **Properties** (Configurações > Editor > Properties in document > Display: Visible).
-
-3. **Configure seu assistente de IA:**
-   - Abra o projeto clonado em seu assistente habilitado com Antigravity/Codex.
-   - O assistente lerá as regras do [AGENTS.md](AGENTS.md) e as habilidades locais na pasta `.agents/` automaticamente.
-
-4. **Personalize:**
-   - Edite o `index.md` e o `Temas MOC.md` para adicionar seus projetos, áreas de foco e estudos iniciais.
+O objetivo deste projeto é equilibrar a captura ágil de ideias com a organização estruturada e de longo prazo de projetos, produtos, estudos e tarefas, utilizando um modelo de camadas e automações inteligentes baseadas em IA.
 
 ---
 
@@ -59,14 +21,13 @@ O cofre é organizado em camadas lógicas para garantir a integridade dos dados 
 | **Outros** | `Templates/` | Modelos | Modelos estruturados de notas (como o de notas diárias). |
 | **Outros** | `index.md` | Índice Geral | Dashboard central do cofre na raiz do projeto, atualizado automaticamente. |
 
-> [!IMPORTANT]
-> **Regra de Higiene da Raiz:** A raiz do cofre deve conter apenas arquivos de navegação/configuração. Anexos, PDFs, imagens e documentos soltos de apoio devem ficar em `Arquivo/attachments/` (ou em `Fontes/` se forem materiais originais); scripts auxiliares devem ficar em `.agents/scripts/`.
+Regra de higiene: a raiz do cofre deve conter apenas arquivos de navegacao/configuracao. PDFs, imagens e documentos soltos devem ficar em `Arquivo/attachments/`; scripts auxiliares devem ficar em `.agents/scripts/`.
 
 ---
 
 ## 🏷️ Padrões de Metadados (Obsidian Properties)
 
-Todas as notas criadas na Wiki Ativa ou no Arquivo utilizam o padrão moderno de propriedades do Obsidian (YAML frontmatter). Isso ajuda você a filtrar suas notas e permite que o assistente de IA leia e atualize o cofre programaticamente.
+Todas as notas criadas na Wiki Ativa ou no Arquivo utilizam o padrão moderno de propriedades do Obsidian. Isso ajuda você a filtrar suas notas e permite que o assistente de IA leia e atualize o cofre programaticamente.
 
 Exemplo de cabeçalho YAML em uma nota:
 ```yaml
@@ -76,36 +37,37 @@ type: projeto # projeto, produto, estudo, ideia, fonte, diario
 status: planejado # planejado, em-andamento, em-manutenção, concluído, descontinuado, pendente, arquivado
 tags:
   - status/planejado
-  - area/pessoal # area/pessoal (Pessoal) ou area/trabalho (Trabalho)
   - papel/raiz # papel/raiz, papel/filha, papel/moc ou papel/fonte
 links:
   - "[[NotaRelacionada]]"
 ---
 ```
 
+O template define apenas metadados estruturais. Tags de conteudo, areas, dominios e categorias pertencem ao ambiente de uso. Se uma instalacao precisar de taxonomia propria, declare-a em um arquivo local ignorado pelo Git, como `.agents/assistant/local.md`.
+
 ### Tipos de Item (`type`):
-*   `projeto`: Iniciativa finita, com prazo e entrega definidos (ex: *Lançamento de Campanha*).
-*   `produto`: Demandas contínuas que evoluem sem um prazo final rígido (ex: *Dashboard Financeiro*).
-*   `estudo`: Tópicos de aprendizado contínuo ou áreas de interesse (ex: *Curso de Machine Learning*).
+*   `projeto`: Iniciativa finita, com prazo e entrega definidos (ex: [[Projeto de Exemplo]]).
+*   `produto`: Demandas contínuas que evoluem sem um prazo final rígido (ex: [[Produto de Exemplo]]).
+*   `estudo`: Tópicos de aprendizado contínuo ou áreas de interesse (ex: [[Estudo de Exemplo]]).
 *   `ideia`: Conceito capturado e não estruturado.
 *   `fonte`: Documento de referência imutável na pasta `Fontes/`.
 *   `diario`: Notas diárias em `Diario/Daily/`.
 
-### Papel Operacional (`papel/*`):
-*   `papel/raiz`: Item principal que fica em `Ativo/` e entra obrigatoriamente no `index.md`.
-*   `papel/filha`: Dossiê, sub-hub ou nota de apoio subordinada a uma nota raiz. Fica guardado em `Arquivo/` para manter a pasta `Ativo/` limpa.
-*   `papel/moc`: Índice temático macro (Map of Content) listado no `Temas MOC.md`.
-*   `papel/fonte`: Referência derivada ou material de origem estruturado.
+### Papel Operacional (`papel/*`)
+*   `papel/raiz`: item principal que fica em `Ativo/` e entra no `index.md`.
+*   `papel/filha`: dossiê, sub-hub ou artefato de apoio que fica em `Arquivo/` e é linkado por uma raiz.
+*   `papel/moc`: índice temático macro listado no `Temas MOC.md`.
+*   `papel/fonte`: referência derivada ou material de origem estruturado.
 
 ---
 
 ## 🤖 O Assistente de IA: agy
 
-O cofre conta com um sistema de automação assistida por IA dividida em dois papéis (**Firewall Cognitivo**):
+O cofre conta com um sistema de automação assistida por IA dividida em dois papéis (Firewall Cognitivo):
 1.  **Antigravity (O Arquiteto):** Agente principal responsável pelo desenvolvimento técnico, depuração e modificação das configurações estruturais na pasta `.agents/`.
 2.  **agy (O Operador):** Subagente especializado em tarefas rotineiras do cofre. Ele opera as pastas `Inbox/`, `Ativo/` e `Diario/`, mas não pode editar as regras em `.agents/`.
 
-O Codex usa o arquivo [AGENTS.md](AGENTS.md) como ponte de compatibilidade para seguir as mesmas regras, lendo `.agents/assistant/` e `.agents/skills/` como fonte canônica.
+O Codex usa `AGENTS.md` como ponte de compatibilidade para seguir as mesmas regras, lendo `.agents/assistant/` e `.agents/skills/` como fonte canônica antes de executar rotinas.
 
 ### ⚡ Habilidades do Assistente (Skills)
 O assistente executa rotinas por meio de habilidades definidas em `.agents/skills/`:
@@ -113,19 +75,16 @@ O assistente executa rotinas por meio de habilidades definidas em `.agents/skill
 *   `create-item`: Cria a estrutura de um novo item raiz (`projeto`, `produto`, `estudo`) em `Ativo/`, ou nota filha em `Arquivo/` quando for dossiê/apoio.
 *   `process-inbox`: Higieniza e move notas brutas da `Inbox/` para a wiki (`Ativo/` ou `Arquivo/`), movendo o arquivo original para `Fontes/`.
 *   `daily-digest`: Executa a transição diária, carregando tarefas pendentes para o dia seguinte, gerando o novo arquivo diário baseado no template e resumindo anotações da seção de Notas.
-*   `dump-material`: Ingere PDFs e referências web na pasta `Fontes/` e indexa-os no MOC temático correspondente.
 *   `lint-vault`: Faz uma auditoria de saúde no cofre buscando links quebrados, tags inválidas ou contradições de status.
-*   `vault-sync`: Executa sincronização de segurança via Git (push/pull) com o repositório remoto, resolvendo conflitos de forma autônoma.
 
-### 🔍 Verificação de Saúde do Cofre
-
-Para validar se o cofre continua navegável por agentes de IA e sem links perdidos ou propriedades quebradas, rode a partir da raiz:
+### Verificacao de Saude do Cofre
+Para validar se o cofre continua navegavel por agentes de IA, rode a partir da raiz:
 
 ```bash
 python .agents/scripts/lint_vault.py
 ```
 
-O script em Python puro (sem dependências externas) roda em Windows, Linux e macOS. Ele não altera seus arquivos; ele apenas reporta erros, alertas e sugestões de links cruzados para correção assistida.
+Em alguns ambientes Linux/macOS, use `python3` no lugar de `python`. O script nao altera arquivos; ele apenas reporta erros, alertas e sugestoes para correcao assistida.
 
 ---
 
@@ -134,9 +93,9 @@ O script em Python puro (sem dependências externas) roda em Windows, Linux e ma
 Para tirar o máximo proveito do seu Segundo Cérebro, sugerimos o seguinte fluxo:
 
 1.  **Captura Rápida (Inbox)**:
-    *   Sempre que tiver uma ideia, pensamento ou link de artigo, envie para a pasta `Inbox/` (ou peça para o assistente criá-la com a skill `capture-idea`).
+    *   Sempre que tiver uma ideia, pensamento ou clipe de artigo, envie para a pasta `Inbox/` (ou peça para o assistente criá-la com o comando de captura de ideia).
 2.  **Processamento periódico (Triagem)**:
-    *   Use o assistente para rodar a skill `process-inbox` nas notas da `Inbox/`. Elas serão formatadas com metadados estruturados e movidas para `Ativo/` ou `Arquivo/`.
+    *   Use o assistente para rodar o `process-inbox` nas notas da `Inbox/`. Elas serão formatadas com metadados estruturados e movidas para `Ativo/` ou `Arquivo/`.
 3.  **Gestão de Itens Ativos (`Ativo/`)**:
     *   Apenas itens raiz acompanháveis ficam na pasta `Ativo/`.
     *   Dossiês, sub-hubs e artefatos de apoio ficam em `Arquivo/` com `papel/filha`, linkados a partir da nota raiz.
@@ -159,17 +118,6 @@ Para tirar o máximo proveito do seu Segundo Cérebro, sugerimos o seguinte flux
 Para usar este cofre no Obsidian:
 1. Abra o Obsidian e escolha **"Open folder as vault"** (Abrir pasta como cofre).
 2. Selecione a pasta raiz deste repositório.
-3. Certifique-se de habilitar a visualização de **Properties** no Obsidian (Configurações > Editor > Properties in document > Display: Visible ou Source).
+3. Certifique-se de habilitar a visualização de **Properties** (Propriedades) no Obsidian (Configurações > Editor > Properties in document > Display: Visible ou Source).
 4. O arquivo `index.md` serve como a página inicial (Home/Dashboard). Você pode usar o plugin *Homepage* do Obsidian para abri-lo automaticamente ao iniciar.
 
----
-
-## 📄 Licença
-
-Este projeto está licensed sob a [MIT License](LICENSE).
-
----
-
-## 🙏 Contribuições
-
-Contribuições são super bem-vindas! Sinta-se à vontade para abrir issues ou pull requests com melhorias nas skills, novos templates de notas ou correções nos scripts auxiliares.

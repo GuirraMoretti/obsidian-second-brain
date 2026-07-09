@@ -1,2 +1,3 @@
-# Obsidian local settings
-.obsidian/
+/.obsidian
+.obsidian/workspace.json
+.agents/assistant/local.md

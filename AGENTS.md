@@ -10,7 +10,8 @@ Leia nesta ordem quando a tarefa envolver o cofre:
 2. `.agents/assistant/agy.md` para regras operacionais do Segundo Cerebro.
 3. `.agents/assistant/architecture.md` quando a tarefa envolver arquitetura, skills ou comportamento de agentes.
 4. `.agents/assistant/decisions.md` antes de mudar convencoes, estrutura ou regras.
-5. A skill especifica em `.agents/skills/<nome>/SKILL.md` quando o pedido corresponder a uma rotina existente.
+5. `.agents/assistant/local.md`, se existir, para configuracoes privadas do ambiente de uso.
+6. A skill especifica em `.agents/skills/<nome>/SKILL.md` quando o pedido corresponder a uma rotina existente.
 
 ## Protocolo de Recuperacao de Contexto
 
@@ -61,7 +62,6 @@ status: planejado
 description: "Resumo curto de uma linha."
 tags:
   - status/planejado
-  - area/pessoal
   - papel/raiz
 links: []
 ---
@@ -70,6 +70,8 @@ links: []
 Tipos validos: `projeto`, `produto`, `estudo`, `ideia`, `fonte`, `diario`.
 Status validos: `planejado`, `em-andamento`, `em-manutenção`, `concluído`, `descontinuado`, `pendente`, `arquivado`.
 Papeis validos em tags: `papel/raiz`, `papel/filha`, `papel/moc`, `papel/fonte`.
+
+Tags de conteudo, areas, dominios e categorias sao configuracao do ambiente de uso. O agente nao deve inventar, padronizar nem migrar taxonomias locais como `area/*` ou `tema/*` sem instrucao explicita do usuario ou de `.agents/assistant/local.md`.
 
 Para definicoes completas, consulte `.agents/assistant/glossary.md`.
 

@@ -56,7 +56,7 @@ sync: <Resumo das mudanças principais>
 ```
 Exemplos:
 - `sync: Diário 26-06-2026, notas consolidadas e updates de projetos`
-- `sync: Captura de ideias e atualização do Formatura UFC`
+- `sync: Captura de ideias e atualização de item ativo`
 
 Se não houver nada para commitar (working tree limpa após o rebase), informe o usuário que o cofre já estava sincronizado e encerre.
 
@@ -97,7 +97,7 @@ Execute `git stash pop`.
 Ao encontrar marcadores de conflito (`<<<<<<<`, `=======`, `>>>>>>>`), siga esta lógica por tipo de arquivo:
 
 ### Notas Diárias (`Diario/Daily/*.md`)
-- **Seções de tarefas (`# Tarefas Pessoais`, `# Trabalho`)**: Mescle as duas versões, mantendo **todas** as tarefas de ambas as partes sem duplicatas.
+- **Seções de tarefas do template diário local**: Mescle as duas versões, mantendo **todas** as tarefas de ambas as partes sem duplicatas.
 - **Seção `# Notas`**: Concatene as anotações de ambas as versões.
 - **Seção `# Eventos Futuros e Prazos`**: Mescle e reordene cronologicamente.
 - **Seção `# Impedimentos de Projetos`**: Mescle, mantendo todos os impedimentos.

@@ -23,12 +23,12 @@ Quando acionada explicitamente pelo usuário (ex: *"/dump-material [Entrada]"*),
    - O assistente principal invoca o subagente especializado `theme-associator`.
    - O subagente lê o arquivo `Temas MOC.md` na raiz do cofre para conhecer todos os MOCs existentes.
    - O subagente compara o título e metadados obtidos no passo anterior com os temas do `Temas MOC.md`.
-   - O subagente retorna um diagnóstico indicando se o material pertence a um tema existente (ex: `Product Operations`) ou se deve ser criado um novo tema (ex: `Rust Programming`) com uma descrição.
+   - O subagente retorna um diagnóstico indicando se o material pertence a um tema existente (ex: `Tema Existente`) ou se deve ser criado um novo tema (ex: `Tema Novo`) com uma descrição.
 
 3. **Gravação e Associação no MOC:**
 
    ### Caso A: O Tema Já Existe (MOC Existente)
-   1. Abra a nota MOC existente em `Ativo/` ou `Arquivo/` (ex: `Arquivo/Product Operations - MOC.md`).
+   1. Abra a nota MOC existente em `Ativo/` ou `Arquivo/` (ex: `Arquivo/Tema Existente - MOC.md`).
    2. Insira a referência do material na seção `## Conceitos e Referencias`:
       - **Se o PDF foi baixado:** Insira o link local com o título formatado (ex: `- [[Fontes/nome_do_pdf.pdf|Título do Artigo]]`).
       - **Se for Paywalled:** Insira o link web com metadados (ex: `- [Título do Artigo (Sem PDF)](doi_url) — Autores, Ano.`).
@@ -45,8 +45,8 @@ Quando acionada explicitamente pelo usuário (ex: *"/dump-material [Entrada]"*),
       description: "MOC de referências sobre [Nome do Tema]"
       tags:
         - status/arquivado
-        - area/pessoal # ou area/evo se o contexto for de trabalho/TCC
-        - tema/[tag-do-tema-higienizada]
+        - papel/moc
+        # tags locais opcionais pertencem ao ambiente de uso
       links:
         - "[[Fontes/nome_do_arquivo.pdf]]" # se aplicável
       ---

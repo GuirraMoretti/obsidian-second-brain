@@ -23,6 +23,7 @@ As habilidades são carregadas pelo agente a partir dos arquivos localizados no 
 ## Guia de Referência de Arquivos
 *   **Regras Gerais do Cofre:** [agy.md](agy.md)
 *   **Histórico de Decisões:** [decisions.md](decisions.md)
+*   **Configuração Local Privada:** `local.md` (ignorado pelo Git), com exemplo em [local.example.md](local.example.md)
 *   **Planejamento de Evolução:** [roadmap.md](roadmap.md)
 *   **Glossário de Tipos e Status:** [glossary.md](glossary.md)
 *   **Documentação da Plataforma Antigravity:** [platform-reference.md](platform-reference.md)

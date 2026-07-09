@@ -19,7 +19,7 @@ Quando solicitado a criar um item (ex: *"Crie o projeto Nome"*, *"Crie o estudo 
 2. **Definição de Nome e Descrição:** Obtenha o nome e o contexto/descrição do item a partir da solicitação do usuário.
 3. **Higienização do Nome:** Crie um nome de arquivo seguro a partir do nome do item (ex: `Meu Novo Projeto.md`).
 4. **Verificação de Duplicatas:** Verifique se o item já existe em `Ativo/` ou `Arquivo/`. Se sim, avise o usuário e encerre a operação.
-5. **Determinação do Domínio:** Identifique se o item é de trabalho (`area/evo`), freelance (`area/freelance`) ou pessoal (`area/pessoal`). Se não for claro pelo contexto, pergunte ao usuário. O domínio é registrado como tag, não como property.
+5. **Tags de Ambiente:** Preserve tags locais citadas pelo usuário ou já definidas em uma configuração privada do ambiente. Não invente nem imponha taxonomias de conteúdo (`area/*`, `tema/*`, categorias, domínios) quando elas não forem fornecidas.
 6. **Determinação do Status:** Identifique o status inicial a partir do contexto do usuário:
    *   `planejado` — standby, sondagem, rascunho, "para não perder a ideia".
    *   `em-andamento` — priorizado, ativo, o usuário disse que vai trabalhar nele.
@@ -32,8 +32,8 @@ Quando solicitado a criar um item (ex: *"Crie o projeto Nome"*, *"Crie o estudo 
    description: "Resumo gerado a partir do contexto do usuário"
    tags:
      - status/planejado
-     - area/evo # area/evo, area/freelance ou area/pessoal
      - papel/raiz
+     # tags locais opcionais pertencem ao ambiente de uso
    links: [] # adicione links para notas existentes se forem citadas
    ---
    ```
@@ -63,6 +63,6 @@ Quando solicitado a criar um item (ex: *"Crie o projeto Nome"*, *"Crie o estudo 
     *   Se for `papel/raiz`, insira a nota na seção correspondente do `index.md` adicionando a descrição inline para Progressive Disclosure (ex: `- [[Nome do Item]] — [status] — [description]`). Notas `papel/filha` não entram no `index.md`; elas devem ser linkadas no corpo da nota raiz.
     *   Localize a nota diária do dia atual em `Diario/Daily/DD-MM-YYYY.md` (se não existir, crie-a baseada no template). Na seção `# Notas`, adicione a linha:
         `- **Novo [Tipo]**: Criado o [tipo] [[Nome do Item]] com status [status].` 
-        *(ex: `- **Novo Projeto**: Criado o projeto [[Verificador de Tags de API no Azure]] com status planejado.*)*
+        *(ex: `- **Novo Projeto**: Criado o projeto [[Projeto de Exemplo]] com status planejado.`)*
     *   Registre o evento silenciosamente no `.agents/assistant/logs.md` (ex: `## [AAAA-MM-DD] create-item | Criado novo [tipo] "[Nome do Item]"`).
 

@@ -35,9 +35,9 @@ REGRAS:
    status: arquivado | planejado | em-andamento | pendente
    description: "Resumo de uma linha da nota"
    tags:
-     - tema/nome-do-tema # Apenas para arquivados ou estudos
-     - area/pessoal # ou area/evo
+     - status/estado-atual
      - papel/raiz | papel/filha | papel/moc
+     # tags locais opcionais pertencem ao ambiente de uso
    links: []
    ---
 5. **Busca e Sugestão de Links Cruzados**: Identifique relações semânticas com outros temas e notas existentes no cofre. Se a nota que você está criando/atualizando compartilha conceitos, entidades ou claims com outras notas do cofre, estabeleça links bidirecionais (`[[Outra Nota]]`) para aproximá-las.

@@ -5,13 +5,15 @@ status: ativo
 tags:
   - diario
 ---
-# Tarefas Pessoais
-- [ ] 
 
-# Trabalho
+# Tarefas
+
 - [ ] 
 
 # Eventos Futuros e Prazos
+
 - 
+
 # Notas
+
 
