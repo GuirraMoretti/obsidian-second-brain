@@ -24,6 +24,24 @@ Este documento planeja evoluções de engenharia e melhorias de arquitetura téc
 
 ---
 
+## Pendências da Auditoria (Agy)
+
+Melhorias identificadas na auditoria de arquitetura e prompts que foram adiadas para execução posterior:
+
+### Prioridade 1 (Alta)
+*   [ ] **Ambiguidade de Nomes no daily-digest (C2):** Mudar placeholders (`Hoje.md`, `Ontem.md`) para caminhos dinâmicos calculados via data explícita (ex: `Diario/Daily/{DD-MM-YYYY}.md`).
+*   [ ] **Eliminar Redundâncias de Documentação:** Definir fontes únicas da verdade (*source of truth*) para conceitos repetidos (como as 3 Camadas no `agy.md` e o Firewall no `architecture.md`) e usar links para referenciá-los.
+*   [x] **Classificar Inbox/ e Arquivo/:** Definir formalmente as regras de camada para `Inbox/` (Camada 0 - Buffer) e `Arquivo/` (Wiki inativa) nos guias de arquitetura. *(Concluído em 2026-06-12 na reestruturação Ativo/)*
+*   [ ] **Sanear index.md:** Corrigir os links internos quebrados no índice central e remover datas e caminhos *hardcoded*.
+*   [ ] **Alinhamento do backlog.md:** Corrigir a contradição do status do `backlog.md` (que usa `status: ativo`) com o manual `agy.md` (que prescreve `em-andamento`, `planejado`, etc.).
+
+### Prioridade 2 (Média/Baixa)
+*   [ ] **Exemplos e Exceções nas Skills:** Adicionar seções `## Exemplo` (input/output) e `## Tratamento de Exceções` (ex: inbox vazia, arquivo diário inexistente) em cada SKILL.md.
+*   [ ] **Padronização de Logs:** Unificar o formato de log de execução gerado pelas skills em `logs.md`.
+*   [ ] **Limpeza de Pastas e Termos Fantasmas:** Documentar/remover o diretório `Diario/Daily Materials/` e definir explicitamente ou remover o conceito de "Classificação Inteligente".
+
+---
+
 ## Guia de Referência
 *   **Arquitetura Técnica:** [architecture.md](architecture.md)
 *   **Histórico de Decisões:** [decisions.md](decisions.md)

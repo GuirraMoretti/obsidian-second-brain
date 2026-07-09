@@ -6,9 +6,8 @@ import urllib.request
 import urllib.error
 import shutil
 
-# Path definitions — auto-detect vault root from script location
-# Script lives at: <vault>/.agents/skills/dump-material/scripts/download_helper.py
-vault_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", ".."))
+# Path definitions
+vault_path = r"c:\Users\Gui.ABC\Documents\GitHub\obsidian"
 fontes_dir = os.path.join(vault_path, "Fontes")
 inbox_dir = os.path.join(vault_path, "Inbox")
 

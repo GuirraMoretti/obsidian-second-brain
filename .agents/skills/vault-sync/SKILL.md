@@ -56,7 +56,7 @@ sync: <Resumo das mudanças principais>
 ```
 Exemplos:
 - `sync: Diário 26-06-2026, notas consolidadas e updates de projetos`
-- `sync: Captura de ideias e atualização do Meu Projeto`
+- `sync: Captura de ideias e atualização do Formatura UFC`
 
 Se não houver nada para commitar (working tree limpa após o rebase), informe o usuário que o cofre já estava sincronizado e encerre.
 

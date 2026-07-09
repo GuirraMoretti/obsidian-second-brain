@@ -19,13 +19,15 @@ Quando o usuário disser algo para capturar ou guardar como ideia (ex: *"Capture
    created: AAAA-MM-DD
    type: ideia
    status: pendente
+   description: ""
    tags:
      - inbox/ideia-rapida
    links: []
    ---
    ```
 4. **Estrutura da Nota:** Escreva o conteúdo com o título principal como cabeçalho H1 e a descrição da ideia logo abaixo.
-5. **Gravação:** Salve o arquivo na pasta [Inbox/](file:///c:/Users/Gui/Documents/obsidian/Inbox).
+5. **Gravação:** Salve o arquivo na pasta `Inbox/`.
 6. **Registro no Diário:** Localize o diário do dia atual em `Diario/Daily/DD-MM-YYYY.md` (se não existir, crie-o baseado no template). Na seção `# Notas`, adicione a linha:
    `- **Ideia Rápida**: Capturada a ideia de [[Nome da Ideia]].`
-7. **Log (Silencioso):** Adicione o registro no [logs.md](file:///c:/Users/Gui/Documents/obsidian/.agents/assistant/logs.md) (ex: `## [AAAA-MM-DD] capture | Capturada a ideia rápida: Titulo da Ideia`).
+7. **Log (Silencioso):** Adicione o registro no `.agents/assistant/logs.md` (ex: `## [AAAA-MM-DD] capture | Capturada a ideia rápida: Titulo da Ideia`).
+

@@ -16,8 +16,9 @@ As habilidades são carregadas pelo agente a partir dos arquivos localizados no 
 *   **[daily-digest](../skills/daily-digest/SKILL.md):** Consolidação diária. Executa a migração de tarefas e delega a extração de notas diárias para o subagente especialista `notes-consolidator` para criar tópicos permanentes.
 *   **[create-item](../skills/create-item/SKILL.md):** Criação estruturada de novos projetos em `Ativo/` utilizando propriedades modernas.
 *   **[capture-idea](../skills/capture-idea/SKILL.md):** Captura rápida de ideias salvando arquivos na Inbox com o título higienizado.
-*   **[lint-vault](../skills/lint-vault/SKILL.md):** Auditoria de saúde do cofre (notas órfãs, contradições de status, referências ausentes, ideias não mapeadas).
+*   **[lint-vault](../skills/lint-vault/SKILL.md):** Auditoria de saude do cofre usando o script portatil `.agents/scripts/lint_vault.py` para detectar notas orfas, divergencias de status, referencias ausentes e lacunas de metadados.
 *   **[dump-material](../skills/dump-material/SKILL.md):** Ingestão e categorização automática de referências externas em MOCs correspondentes.
+*   **[vault-sync](../skills/vault-sync/SKILL.md):** Sincronização bidirecional do cofre com o repositório remoto no GitHub, incluindo resolução autônoma de conflitos.
 
 ## Guia de Referência de Arquivos
 *   **Regras Gerais do Cofre:** [agy.md](agy.md)
@@ -28,7 +29,7 @@ As habilidades são carregadas pelo agente a partir dos arquivos localizados no 
 
 ## Firewall Cognitivo e Subagentes
 O sistema implementa uma forte separação de papéis para evitar alucinações de alteração de arquitetura:
-*   **Antigravity (Arquiteto):** Agente principal responsável por configurar, manter e auditar a arquitetura em `.agents/`. Tem a responsabilidade obrigatória de registrar toda alteração estrutural, refatoração de pastas/nomes ou decisões de design no histórico [decisions.md](decisions.md) e [logs.md](logs.md) antes de concluir qualquer tarefa.
+*   **Arquiteto (Antigravity historico / Codex compativel):** Agente principal responsável por configurar, manter e auditar a arquitetura em `.agents/`. Tem a responsabilidade obrigatória de registrar toda alteração estrutural, refatoração de pastas/nomes ou decisões de design no histórico [decisions.md](decisions.md) e [logs.md](logs.md) antes de concluir qualquer tarefa.
 *   **`agy` (Operador Diário):** Subagente restrito (instanciado via `define_subagent`) que NÃO pode editar a arquitetura. Ele é responsável por operar a `Inbox/`, `Diario/`, `Ativo/` e `Arquivo/` (incluindo a gestão, criação e atualização de MOCs temáticos e do `Temas MOC.md`) no dia a dia.
 *   **`notes-consolidator`:** Subagente acionado pelo `daily-digest` (via Agy) para curar notas soltas.
 *   **`theme-associator`:** Subagente acionado pela skill `dump-material` para analisar materiais semânticos e mapear MOCs correspondentes.

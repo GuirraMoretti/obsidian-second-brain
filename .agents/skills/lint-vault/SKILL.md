@@ -11,16 +11,19 @@ Esta habilidade orienta o subagente agy a escanear a base de conhecimento do cof
 
 Quando o usuário solicitar um lint, auditoria ou verificação de saúde do cofre (ex: *"Faça o lint do cofre"*):
 
-1. **Varredura Completa:** Analise o catálogo de notas existentes em `Ativo/`, `Diario/Daily/` e `Ativo/backlog.md`.
-2. **Critérios de Diagnóstico:**
-   *   **Notas Órfãs:** Identifique notas em `Ativo/` que não possuam nenhum link de entrada `[[Nome da Nota]]` vindo de outros arquivos (incluindo o `index.md` e o `backlog.md`).
-   *   **Contradições e Obsolescência:** Compare notas de tópicos correlacionados (como itens ativos e diários recentes) para apontar se há informações desatualizadas (ex: um status marcado como "em-andamento" no index mas "concluido" no diário).
-   *   **Links Perdidos:** Encontre ocorrências de texto puro que coincidam com títulos de outras notas existentes e sugira convertê-los em links bidirecionais `[[Nota]]`.
-   *   **Notas Sementes Ausentes:** Detecte menções frequentes a conceitos que ainda não possuem arquivo `.md` correspondente e sugira sua criação.
-3. **Apresentação de Relatório:** Exiba um relatório estruturado no chat contendo:
-   *   `Alertas de Consistencia` (Contradições e desatualizações).
-   *   `Notas Orfas Encontradas`.
-   *   `Sugestoes de Links Cruzados` (Onde adicionar links bidirecionais).
-   *   `Sugestoes de Novas Notas Sementes` (Tópicos recorrentes não mapeados).
-4. **Proposta de Ação:** Pergunte se o usuário deseja que você corrija os itens listados automaticamente.
-5. **Log (Silencioso):** Registre a verificação no .agents/assistant/logs.md (ex: `## [AAAA-MM-DD] lint | Realizada auditoria de saúde do cofre. Detecções: X órfãs, Y links perdidos`).
+1. **Executar Script de Diagnostico:** Rode `python .agents/scripts/lint_vault.py` a partir da raiz do cofre (use `python3` se este for o comando do ambiente Linux/macOS). O script e a fonte primaria para os checks mecanicos.
+2. **Escopo do Script:** Use o relatorio gerado para avaliar:
+   *   notas em `Ativo/` ausentes no `index.md`;
+   *   notas em `Ativo/` sem `description`;
+   *   notas em `Ativo/` sem `papel/raiz`;
+   *   MOCs (`*- MOC.md`) sem `description`;
+   *   MOCs (`*- MOC.md`) sem `papel/moc`;
+   *   anexos soltos na raiz que devem ir para `Arquivo/attachments/`;
+   *   scripts soltos na raiz que devem ir para `.agents/scripts/`;
+   *   wikilinks que nao resolvem para nenhum arquivo conhecido;
+   *   notas potencialmente orfas sem inbound link;
+   *   divergencias entre status do frontmatter e status exibido no `index.md`.
+3. **Leitura Complementar:** Quando o script apontar uma divergencia sem contexto suficiente, leia os arquivos afetados antes de propor correcao. Nao altere status nem marque tarefas como concluidas sem sinal explicito do usuario.
+4. **Apresentacao de Relatorio:** Exiba no chat um resumo estruturado com `Erros`, `Alertas` e `Sugestoes`, preservando os itens acionaveis do script.
+5. **Proposta de Acao:** Pergunte se o usuario deseja que voce corrija os itens listados automaticamente.
+6. **Log (Silencioso):** Registre a verificacao no `.agents/assistant/logs.md` (ex: `## [AAAA-MM-DD] lint | Script executado. Erros: X | Alertas: Y | Sugestoes: Z`).

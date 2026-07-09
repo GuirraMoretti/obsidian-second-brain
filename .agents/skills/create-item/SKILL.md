@@ -1,11 +1,11 @@
 ---
 name: create-item
-description: Cria a estrutura e contexto inicial para um novo item na pasta Ativo/, suportando os tipos projeto, produto e estudo.
+description: Cria a estrutura e contexto inicial para um novo item raiz na pasta Ativo/, suportando os tipos projeto, produto e estudo.
 ---
 
 # Habilidade: Criar Novo Item
 
-Esta habilidade orienta o subagente agy a estruturar um novo item (projeto, produto ou estudo) no cofre com as seções e propriedades corretas. Para definições detalhadas de cada tipo, consulte o [glossário de tipos](.agents/assistant/glossary.md).
+Esta habilidade orienta o subagente agy a estruturar um novo item raiz (projeto, produto ou estudo principal) no cofre com as seções e propriedades corretas. Para definições detalhadas de cada tipo e papel operacional, consulte o [glossário de tipos](.agents/assistant/glossary.md).
 
 ## Diretrizes de Execução
 
@@ -18,7 +18,7 @@ Quando solicitado a criar um item (ex: *"Crie o projeto Nome"*, *"Crie o estudo 
    Se o tipo não for claro pelo contexto, pergunte ao usuário.
 2. **Definição de Nome e Descrição:** Obtenha o nome e o contexto/descrição do item a partir da solicitação do usuário.
 3. **Higienização do Nome:** Crie um nome de arquivo seguro a partir do nome do item (ex: `Meu Novo Projeto.md`).
-4. **Verificação de Duplicatas:** Verifique se o item já existe em `Ativo/`. Se sim, avise o usuário e encerre a operação.
+4. **Verificação de Duplicatas:** Verifique se o item já existe em `Ativo/` ou `Arquivo/`. Se sim, avise o usuário e encerre a operação.
 5. **Determinação do Domínio:** Identifique se o item é de trabalho (`area/evo`), freelance (`area/freelance`) ou pessoal (`area/pessoal`). Se não for claro pelo contexto, pergunte ao usuário. O domínio é registrado como tag, não como property.
 6. **Determinação do Status:** Identifique o status inicial a partir do contexto do usuário:
    *   `planejado` — standby, sondagem, rascunho, "para não perder a ideia".
@@ -29,9 +29,11 @@ Quando solicitado a criar um item (ex: *"Crie o projeto Nome"*, *"Crie o estudo 
    created: AAAA-MM-DD
    type: projeto # ou produto, estudo
    status: planejado # ou em-andamento
+   description: "Resumo gerado a partir do contexto do usuário"
    tags:
      - status/planejado
      - area/evo # area/evo, area/freelance ou area/pessoal
+     - papel/raiz
    links: [] # adicione links para notas existentes se forem citadas
    ---
    ```
@@ -56,10 +58,11 @@ Quando solicitado a criar um item (ex: *"Crie o projeto Nome"*, *"Crie o estudo 
 
    > **REGRA:** Itens com status `planejado` **NÃO** possuem `Cronograma e Marcos`. Não invente tarefas de execução para itens que o usuário não priorizou.
 
-9. **Gravação:** Salve o arquivo no diretório `Ativo/`.
+9. **Gravação:** Salve o arquivo no diretório `Ativo/` apenas quando for `papel/raiz`. Se o usuário pedir um dossiê, sub-hub, artefato de apoio ou nota subordinada a outro item, salve em `Arquivo/` com `papel/filha` e link para a raiz correspondente.
 10. **Atualizações de Índices, Diário e Logs:**
-    *   Insira a nota na seção correspondente do `index.md` com o status correspondente.
+    *   Se for `papel/raiz`, insira a nota na seção correspondente do `index.md` adicionando a descrição inline para Progressive Disclosure (ex: `- [[Nome do Item]] — [status] — [description]`). Notas `papel/filha` não entram no `index.md`; elas devem ser linkadas no corpo da nota raiz.
     *   Localize a nota diária do dia atual em `Diario/Daily/DD-MM-YYYY.md` (se não existir, crie-a baseada no template). Na seção `# Notas`, adicione a linha:
         `- **Novo [Tipo]**: Criado o [tipo] [[Nome do Item]] com status [status].` 
         *(ex: `- **Novo Projeto**: Criado o projeto [[Verificador de Tags de API no Azure]] com status planejado.*)*
     *   Registre o evento silenciosamente no `.agents/assistant/logs.md` (ex: `## [AAAA-MM-DD] create-item | Criado novo [tipo] "[Nome do Item]"`).
+

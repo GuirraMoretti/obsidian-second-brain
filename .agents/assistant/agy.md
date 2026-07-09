@@ -14,16 +14,39 @@ O Segundo Cérebro é estruturado em camadas lógicas para equilibrar a mutabili
     Ponto de entrada temporário de capturas rápidas ou rascunhos cruas feitas pelo usuário ou por integrações. É uma zona transitória de triagem, limpa e classificada periodicamente.
 *   **Camada 1: Fontes Imutáveis (`Fontes/`)**
     Armazena os documentos e arquivos originais processados da Inbox (artigos clipados, PDFs, imagens, relatórios). O assistente lê esses arquivos para RAG ou consulta, mas **nunca os altera ou exclui**, garantindo a rastreabilidade absoluta da informação.
-*   **Camada 2: Wiki Ativa (`Ativo/`, `Diario/`)**
+*   **Camada 2: Painel Ativo e Diário (`Ativo/`, `Diario/`)**
     Notas persistentes e interconectadas em Markdown. A IA lê e atualiza essa camada ativamente para compilar o conhecimento acumulado:
-    *   `Ativo/`: Zona unificada de trabalho contendo projetos, produtos, estudos e ideias. A distinção entre tipos é semântica (via `type` no frontmatter). Inclui o `backlog.md` para rastreamento e priorização.
+    *   `Ativo/`: Painel executivo contendo apenas itens raiz acompanháveis (`papel/raiz`), como projetos, produtos e estudos principais. Inclui o `backlog.md` para rastreamento e priorização.
     *   `Diario/`: Notas diárias temporais (na pasta `/Daily/` no formato `DD-MM-YYYY.md`) e log de tarefas.
 *   **Camada 3: Esquema e Regras (`.agents/`)**
     Diretrizes estruturais, manuais operacionais e habilidades de execução (`.agents/assistant/agy.md` e `.agents/skills/`). É a configuração de comportamento do agente, modificada exclusivamente pelo Arquiteto (Antigravity).
-*   **Camada 4: Arquivo Inativo (`Arquivo/`)**
-    Retenção histórica. Armazena notas de temas e projetos concluídos, cancelados ou desativados que saíram da Wiki Ativa.
+*   **Camada 4: Arquivo e Biblioteca de Apoio (`Arquivo/`)**
+    Retenção histórica e biblioteca de suporte. Armazena notas filhas (`papel/filha`), MOCs (`papel/moc`), referências passivas e itens concluídos, cancelados ou desativados.
 
 ---
+
+## Estratégia de Navegação Progressiva (Progressive Disclosure)
+
+O cofre é projetado para que agentes de IA o descubram em camadas, sem precisar ler todos os arquivos de uma vez. A ordem de leitura recomendada para resolver qualquer dúvida é:
+
+1. **`index.md`** (raiz) → Visão geral dos itens raiz (`papel/raiz`), seus status e descrições de uma linha.
+2. **Nota do item** (ex: `Ativo/Dashboard Produto.md`) → Escopo completo, cronograma e tarefas.
+3. **MOCs temáticos** (ex: `Arquivo/LLMs - MOC.md`, via `Temas MOC.md`) → Índice de referências sobre um tema.
+4. **Fontes originais** (ex: `Fontes/artigo.md`) → Material bruto imutável, consultado por demanda.
+
+O agente deve resolver cada dúvida no **nível mais alto possível**, aprofundando apenas quando a informação necessária não estiver disponível no nível atual. Isso preserva a janela de contexto e evita leituras desnecessárias.
+
+### Protocolo Obrigatorio de Recuperacao de Contexto
+
+Para perguntas sobre o conteudo do cofre, o agente deve executar este percurso antes de responder que nao encontrou contexto suficiente:
+
+1. Ler `index.md` para identificar itens raiz (`papel/raiz`), status e descricoes de uma linha.
+2. Buscar os termos relevantes com `rg` em `Ativo/`, `Arquivo/`, `Diario/Daily/` e `Temas MOC.md`.
+3. Abrir a nota ativa, hub ou MOC mais relevante.
+4. Seguir apenas os wikilinks diretamente relacionados ao pedido.
+5. Responder com base nos arquivos lidos e mencionar esses arquivos quando a rastreabilidade for importante.
+
+Se `index.md` estiver incompleto, desatualizado ou contraditorio com os arquivos em `Ativo/`, isso deve ser tratado como problema de saude do cofre e auditado com `lint-vault`.
 
 ---
 
@@ -36,13 +59,22 @@ Todas as notas criadas ou otimizadas pelo assistente devem ter este formato de m
 created: AAAA-MM-DD
 type: tipo-da-nota # projeto, produto, estudo, ideia, fonte, diario
 status: estado-atual # planejado, em-andamento, em-manutenção, concluído, descontinuado, pendente, arquivado
+description: "Resumo de uma linha do conceito" # Obrigatorio em notas de Ativo/ e MOCs. Usado pelo index.md e por agentes para navegacao progressiva.
 tags:
   - status/estado-atual
-  - area/evo # area/evo (Trabalho), area/freelance (Freelance) ou area/pessoal (Pessoal)
+  - area/evo # Trabalho normal/corporativo
+  - area/freelance # Trabalho freelance
+  - area/pessoal # Projetos e tarefas pessoais
+  - area/pesquisa # Projetos de pesquisa acadêmica/científica
+  - papel/raiz # papel/raiz, papel/filha, papel/moc, papel/fonte
 links:
   - "[[NotaRelacionada]]"
 ---
 ```
+
+> O campo `description` e obrigatorio para notas em `Ativo/` e para arquivos `*- MOC.md`, inclusive quando forem criados por skills. Em notas antigas fora desse escopo, a ausencia do campo e tolerada, mas o `lint-vault` deve apontar lacunas que prejudiquem a navegacao por IA.
+
+> A tag `papel/*` define a funcao operacional da nota no sistema: `papel/raiz` aparece em `Ativo/` e no `index.md`; `papel/filha` e usada para dossies, sub-hubs e notas de apoio em `Arquivo/`; `papel/moc` identifica indices tematicos; `papel/fonte` identifica referencias derivadas ou materiais de origem.
 
 > Para definições formais de cada tipo e status, consulte o [glossary.md](glossary.md).
 
@@ -59,11 +91,14 @@ O assistente deve executar **exclusivamente** o que foi solicitado, sem ações 
 
 ---
 
-## Fronteira entre Ativo/ e Arquivo/ (Ação vs Referência Passiva)
+## Fronteira entre Ativo/ e Arquivo/ (Raiz vs Apoio)
 
-A pasta `Ativo/` é **estritamente** reservada para demandas, estudos e projetos que estão em andamento ou planejados para o curto prazo. O assistente **NUNCA** deve salvar referências passivas, interesses futuros ou notas estritamente conceituais em `Ativo/`.
+A pasta `Ativo/` é **estritamente** reservada para itens raiz acompanháveis (`papel/raiz`) que devem aparecer no painel de decisão. Nem toda nota consultada com frequência pertence a `Ativo/`.
 
-* **Informação Passiva e Longo Prazo**: Se o usuário menciona algo para "o futuro", "não no momento", ou apenas deseja registrar um conhecimento, a nota correspondente deve ser criada diretamente em `Arquivo/` com `status: arquivado`.
+* **Nota Raiz**: Projeto, produto ou estudo principal que o usuário acompanha como unidade de decisão. Fica em `Ativo/`, entra no `index.md` e recebe `papel/raiz`.
+* **Nota Filha / Dossiê / Sub-hub**: Material de apoio a uma raiz, mesmo que esteja em uso. Fica em `Arquivo/`, recebe `papel/filha` e deve ser linkado a partir da nota raiz correspondente.
+* **MOC Temático**: Índice de tema macro. Fica em `Arquivo/`, recebe `papel/moc` e é listado no `Temas MOC.md`.
+* **Informação Passiva e Longo Prazo**: Se o usuário menciona algo para "o futuro", "não no momento", ou apenas deseja registrar um conhecimento, a nota correspondente deve ser criada diretamente em `Arquivo/` com `status: arquivado` e `papel/filha` ou `papel/moc`, conforme o caso.
 * **Organização Temática Semântica**: Não crie subpastas temáticas (ex: `Ativo/Product Ops/`). A classificação de assuntos é feita exclusivamente via tags hierárquicas no frontmatter (ex: `tags: [tema/product-ops]`).
 
 ---
@@ -89,26 +124,39 @@ Use esta tabela como referência para classificar o que o usuário está pedindo
 
 ## Regra de Espelhamento Diário ↔ Projeto
 
-Apenas projetos e produtos com `status: em-andamento` podem ter tarefas espelhadas no diário. Itens com `status: planejado` ficam exclusivamente em `Ativo/` e podem ser mencionados na seção `# Notas` do diário como referência.
+Apenas projetos e produtos raiz (`papel/raiz`) com `status: em-andamento` podem ter tarefas espelhadas no diário. Itens raiz com `status: planejado` ficam em `Ativo/` sem espelhamento. Notas filhas (`papel/filha`) ficam em `Arquivo/` e só entram no diário como contexto quando necessário.
 
 ### Hierarquia do Diário
 
 O diário é organizado por **domínio de vida** (nível H1), depois por **projeto ativo** (nível H2 com wikilink), com tarefas como checkboxes:
 
 ```markdown
-# Tarefas Pessoais
+# Pessoal
+- [ ] Tarefa pessoal avulsa
 ## [[Projeto Pessoal A]]
 - [ ] Pendência X
 
 # Trabalho
-## [[Projeto Profissional B]]
-- [ ] Demanda Z
+## [[Projeto Freelance B]]
+- [ ] Demanda Freelancer Y
+## [[Projeto Corporativo C]]
+- [ ] Demanda Corporativa Z
+
+# Pesquisa
+## [[Pesquisa D]]
+- [ ] Tarefa de pesquisa W
 
 # Notas
 - Contexto solto, brain dumps, wikilinks para projetos em standby...
 ```
 
-O domínio de cada projeto é determinado pela tag `area/` no frontmatter: `area/evo` → Trabalho, `area/freelance` → Trabalho, `area/pessoal` → Tarefas Pessoais. Tarefas avulsas (sem projeto associado) ficam diretamente sob o domínio correspondente.
+O domínio de cada projeto é determinado pela tag `area/` no frontmatter: 
+*   `area/evo` → Trabalho (Normal)
+*   `area/freelance` → Trabalho (Freelance)
+*   `area/pessoal` → Pessoal
+*   `area/pesquisa` → Pesquisa
+
+Tarefas avulsas (sem projeto associado) ficam diretamente sob o domínio correspondente (Pessoal, Trabalho ou Pesquisa).
 
 ---
 
@@ -143,7 +191,7 @@ O cofre opera sob uma rígida separação de papéis detalhada no [architecture.
 As rotinas do operador são acionadas através das habilidades documentadas em [architecture.md](architecture.md):
 1.  **Ingestão da Inbox (`process-inbox`):** Triagem e formatação de novos rascunhos.
 2.  **Consolidação Diária (`daily-digest`):** Fechamento/abertura de dias e rollup de pendências.
-3.  **Criar Novo Item (`create-item`):** Estruturação de projetos, produtos e estudos em `Ativo/`.
+3.  **Criar Novo Item (`create-item`):** Estruturação de projetos, produtos e estudos raiz em `Ativo/`, ou notas filhas em `Arquivo/` quando forem dossiês de apoio.
 4.  **Captura Rápida (`capture-idea`):** Salvar ideias instantaneamente na `Inbox/`.
 5.  **Auditoria do Cofre (`lint-vault`):** Checkup de links e integridade das notas.
 6.  **Capturar e Arquivar Materiais (`dump-material`):** Ingestão e categorização automática de referências usando MOCs.
@@ -156,3 +204,5 @@ O Obsidian é um ambiente de concorrência ativa onde o usuário (humano) e o as
 
 *   **Proibido Assumir Estado:** Nunca confie na memória do contexto de chat para determinar o conteúdo atual de um arquivo, mesmo que você o tenha editado na rodada anterior.
 *   **Leitura Obrigatória (Fresh Read):** Antes de realizar qualquer operação de escrita, migração (como o `daily-digest`) ou tomada de decisão baseada no conteúdo de uma nota, o agente deve **obrigatoriamente ler o arquivo do disco físico** utilizando a ferramenta de leitura. O arquivo gravado no disco é a única fonte da verdade.
+*   **Produtor/Consumidor Independente:** O cofre adota o princípio de independência entre quem produz e quem consome a nota. Uma nota criada pelo humano no Obsidian é consumível pelo agente sem adaptação. Uma nota criada pelo agente via skill é navegável pelo humano no Obsidian. O formato Markdown + YAML frontmatter é o contrato de interoperabilidade — o mesmo arquivo, sem camada de tradução.
+

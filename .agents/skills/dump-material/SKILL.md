@@ -42,6 +42,7 @@ Quando acionada explicitamente pelo usuário (ex: *"/dump-material [Entrada]"*),
       created: AAAA-MM-DD
       type: estudo
       status: arquivado
+      description: "MOC de referências sobre [Nome do Tema]"
       tags:
         - status/arquivado
         - area/pessoal # ou area/evo se o contexto for de trabalho/TCC
